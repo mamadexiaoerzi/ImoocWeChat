@@ -1,50 +1,84 @@
 package com.imooc.wechat;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentPagerAdapter;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.imooc.wechat.fragment.TabFragment;
 import com.imooc.wechat.utils.L;
+import com.imooc.wechat.view.TabView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityWithTab extends AppCompatActivity {
 
     private ViewPager mVpMain;
     private List<String> mTitles = new ArrayList<>(Arrays.asList("微信", "通讯录", "发现", "我"));
 
-    private Button mBtnWeChat;
-    private Button mBtnFriend;
-    private Button mBtnFind;
-    private Button mBtnMine;
+    private TabView mTabWeChat;
+    private TabView mTabFriend;
+    private TabView mTabFind;
+    private TabView mTabMine;
 
-    private List<Button> mTabs = new ArrayList<>();
+    private List<TabView> mTabs = new ArrayList<>();
 
     // SparseArray[key-int,value-Object]，Android特有的
     // 类似于Map，但效率比Map高很多
     // 多Tab的情况下，Fragment的集合管理
     private SparseArray<TabFragment> mFragments = new SparseArray<>();
 
+    private static final String BUNDLE_KEY_POS = "bundle_key_pos";
+    private int mCurrTabPos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_with_tab);
+
+        if (savedInstanceState != null) {
+            mCurrTabPos = savedInstanceState.getInt(BUNDLE_KEY_POS, 0);
+        }
 
         initViews();
 
         initViewPagerAdapter();
+
+        initEvents();
+    }
+
+    /*
+     屏幕旋转处理：存储数据，Activity重建时恢复
+        屏幕旋转后   ViewPager记住了之前的状态
+                    TabView未记住，默认选择第一个
+      */
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(BUNDLE_KEY_POS, mVpMain.getCurrentItem());
+        super.onSaveInstanceState(outState);
+    }
+
+    // Tab点击事件
+    private void initEvents() {
+        for (int i = 0; i < mTabs.size(); i++) {
+            TabView tabView = mTabs.get(i);
+            final int finalI = i;
+            tabView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mVpMain.setCurrentItem(finalI, false);
+                    setCurrentTab(finalI);
+                }
+            });
+        }
     }
 
     private void initViewPagerAdapter() {
@@ -65,15 +99,6 @@ public class MainActivity extends AppCompatActivity {
                 // 因为Fragment特性：当Activity发生旋转/后台销毁重建时，可以恢复上一次的Fragment对象
                 // 恢复的代码是由ViewPager和FragmentPagerAdapter去做的
                 TabFragment fragment = TabFragment.newInstance(mTitles.get(position));
-                if (position == 0) {
-                    // Fragment调用Activity，无需修改Fragment代码，即可被不同Activity复用
-                    fragment.setOnTitleClickListener(new TabFragment.OnTitleClickListener() {
-                        @Override
-                        public void onClick(String title) {
-                            changeWeChatTab(title);
-                        }
-                    });
-                }
                 return fragment;
             }
 
@@ -112,11 +137,11 @@ public class MainActivity extends AppCompatActivity {
                 // left tab
                 // right tab
                 if (positionOffset > 0) {
-                    Button left = mTabs.get(position);
-                    Button right = mTabs.get(position + 1);
+                    TabView left = mTabs.get(position);
+                    TabView right = mTabs.get(position + 1);
 
-                    left.setText(1 - positionOffset + "");
-                    right.setText(positionOffset + "");
+                    left.setProgress(1 - positionOffset);
+                    right.setProgress(positionOffset);
                 }
             }
 
@@ -135,29 +160,33 @@ public class MainActivity extends AppCompatActivity {
 
     private void initViews() {
         mVpMain = findViewById(R.id.vp_main);
-        mBtnWeChat = findViewById(R.id.btn_weChat);
-        mBtnFriend = findViewById(R.id.btn_friend);
-        mBtnFind = findViewById(R.id.btn_find);
-        mBtnMine = findViewById(R.id.btn_mine);
+        mTabWeChat = findViewById(R.id.tab_weChat);
+        mTabFriend = findViewById(R.id.tab_friend);
+        mTabFind = findViewById(R.id.tab_find);
+        mTabMine = findViewById(R.id.tab_mine);
 
-        mTabs.add(mBtnWeChat);
-        mTabs.add(mBtnFriend);
-        mTabs.add(mBtnFind);
-        mTabs.add(mBtnMine);
+        mTabWeChat.setIconAndText(R.drawable.wechat, R.drawable.wechat_select, "微信");
+        mTabFriend.setIconAndText(R.drawable.friend, R.drawable.friend_select, "通讯录");
+        mTabFind.setIconAndText(R.drawable.find, R.drawable.find_select, "发现");
+        mTabMine.setIconAndText(R.drawable.mine, R.drawable.mine_select, "我");
 
-        mBtnWeChat.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // 获取第一个Fragment
-                TabFragment fragment = mFragments.get(0);
-                if (fragment != null) {
-                    fragment.changeTitle("微信changed!");
-                }
-            }
-        });
+        mTabs.add(mTabWeChat);
+        mTabs.add(mTabFriend);
+        mTabs.add(mTabFind);
+        mTabs.add(mTabMine);
+
+        // 默认选中第一个
+        setCurrentTab(mCurrTabPos);
     }
 
-    public void changeWeChatTab(String title) {
-        mBtnWeChat.setText(title);
+    private void setCurrentTab(int pos) {
+        for (int i = 0; i < mTabs.size(); i++) {
+            TabView tabView = mTabs.get(i);
+            if (i == pos) {
+                tabView.setProgress(1);
+            } else {
+                tabView.setProgress(0);
+            }
+        }
     }
 }

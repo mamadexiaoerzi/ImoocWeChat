@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".MainActivityWithTab">
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp_main"
@@ -12,41 +12,41 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#aaaaaa"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:background="#eeeeee"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
-        <Button
-            android:id="@+id/btn_weChat"
+        <com.imooc.wechat.view.TabView
+            android:id="@+id/tab_weChat"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="微信"
-            android:textAllCaps="false" />
+            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btn_friend"
+        <com.imooc.wechat.view.TabView
+            android:id="@+id/tab_friend"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="通讯录"
-            android:textAllCaps="false" />
+            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btn_find"
+        <com.imooc.wechat.view.TabView
+            android:id="@+id/tab_find"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="发现"
-            android:textAllCaps="false" />
+            android:layout_weight="1" />
 
-        <Button
-            android:id="@+id/btn_mine"
+        <com.imooc.wechat.view.TabView
+            android:id="@+id/tab_mine"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="我"
-            android:textAllCaps="false" />
+            android:layout_weight="1" />
     </LinearLayout>
 </LinearLayout>

@@ -24,11 +24,11 @@ public class TabFragment extends Fragment {
     private TextView mTvTitle;
     private String mTitle;
 
+    private OnTitleClickListener mListener;
+
     public interface OnTitleClickListener {
         void onClick(String title);
     }
-
-    private OnTitleClickListener mListener;
 
     public void setOnTitleClickListener(OnTitleClickListener listener) {
         mListener = listener;

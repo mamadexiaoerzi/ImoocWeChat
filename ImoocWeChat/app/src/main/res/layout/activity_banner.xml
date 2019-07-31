@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".BannerActivity">
+
+    <!--
+        clipChildren:是否裁剪子布局
+            尽量放在范围比较小的控件内，否则风险很高
+
+        FrameLayout: layout_height="180dp"
+            容器外侧提供额外区域，以在旋转过程中将图片显示完全，可根据旋转角度精确计算
+    -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:clipChildren="false">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/vp_banner"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:clipChildren="false" />
+    </FrameLayout>
+
+</LinearLayout>

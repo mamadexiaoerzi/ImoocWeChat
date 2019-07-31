@@ -56,8 +56,8 @@ public class MainActivityWithTab extends AppCompatActivity {
     }
 
     /*
-     屏幕旋转处理：存储数据，Activity重建时恢复
-        屏幕旋转后   ViewPager记住了之前的状态
+       屏幕旋转处理：存储数据，Activity重建时恢复
+         屏幕旋转后   ViewPager记住了之前的状态
                     TabView未记住，默认选择第一个
       */
     @Override

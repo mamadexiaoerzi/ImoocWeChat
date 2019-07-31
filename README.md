@@ -55,6 +55,23 @@ https://www.imooc.com/learn/1116
 ## 第5章 扩展ViewPager动画特效  
   本章将使用ViewPager实现图片滑动效果，并使用属性动画、Banner等技术实现图片切换时酷炫动画特效。
   
+  **小结**：  
+  * ViewPager的切换动画  
+	* setPageTransformer(boolean reverseDrawingOrder, PageTransformer transformer)  
+	* PageTransformer接口  
+		void transformPage(View page, float position)  	
+	* 打Log找规律-view和position的对应关系  
+		scale、alpha  
+		rotate-注意旋转中心、空间  
+		
+  * ViewPager实现banner效果  
+	clipChildren="false"  
+	setPageMargin()合理使用  
+	
+  * ViewPager  
+	简单的通过PagerAdapter、View实现  
+	复杂的通过FragmentPagerAdapter/FragmentStatePagerAdapter、fragment实现  
+	
 ## 第6章 课程总结  
   总结本门课重点难点内容。 
 

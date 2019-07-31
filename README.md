@@ -1,4 +1,5 @@
 # ViewPager+Tab特效实现微信主界面
+https://www.imooc.com/learn/1116  
 简介：本课程以微信主界面为例，介绍如何使用ViewPager和FragmentPagerAdapter实现多页面滑动效果，底部Tab的指示器动画特效，还将扩展ViewPager实现透明度渐变、旋转等特效。 
 * 第1章 项目演示及课程介绍  
   本章将展示项目效果并介绍课程内容

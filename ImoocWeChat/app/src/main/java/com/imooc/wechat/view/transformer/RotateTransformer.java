@@ -46,41 +46,46 @@ public class RotateTransformer implements ViewPager.PageTransformer {
             page.setPivotY(page.getHeight());
             page.setRotation(-MAX_ROTATE);
         } else if (position <= 1) { // [0, 1]
-            if (position < 0) { // 左边的页面 a
 
-                // a -> b :
-                //      position:[0, -1]
-                // a    PivotX: [0.5w, w] = 0.5w * [1, 2]
-                //      PivotY: 不变
-                //      Rotation: [0, -MAX_ROTATE] = MAX_ROTATE * [0, -1]
-                page.setPivotX(0.5f * (1 - position) * page.getWidth());
-                page.setPivotY(page.getHeight());
-                page.setRotation(MAX_ROTATE * position);
+            page.setPivotX(0.5f * (1 - position) * page.getWidth());
+            page.setPivotY(page.getHeight());
+            page.setRotation(MAX_ROTATE * position);
 
-                // b -> a : 同上
-                //      position:[-1, 0]
-                // a    PivotX: [w, 0.5w] = 0.5w * [2, 1]
-                //      PivotY: 不变
-                //      Rotation: [-MAX_ROTATE, 0] = MAX_ROTATE * [-1, 0]
-
-            } else { // 右边的页面 b
-
-                // a -> b :
-                //      position:[1, 0]
-                // b    PivotX: [0w, 0.5w] = 0.5w * [0, 1]
-                //      PivotY: 不变
-                //      Rotation: [MAX_ROTATE, 0] = MAX_ROTATE * [1, 0]
-                page.setPivotX(0.5f * (1 - position) * page.getWidth());
-                page.setPivotY(page.getHeight());
-                page.setRotation(MAX_ROTATE * position);
-
-                // b -> a : 同上
-                //      position:[0, 1]
-                // b    PivotX: [0.5w, 0w] = 0.5w * [1, 0]
-                //      PivotY: 不变
-                //      Rotation: [0, MAX_ROTATE] = MAX_ROTATE * [0, 1]
-
-            }
+//            if (position < 0) { // 左边的页面 a
+//
+//                // a -> b :
+//                //      position:[0, -1]
+//                // a    PivotX: [0.5w, w] = 0.5w * [1, 2]
+//                //      PivotY: 不变
+//                //      Rotation: [0, -MAX_ROTATE] = MAX_ROTATE * [0, -1]
+//                page.setPivotX(0.5f * (1 - position) * page.getWidth());
+//                page.setPivotY(page.getHeight());
+//                page.setRotation(MAX_ROTATE * position);
+//
+//                // b -> a : 同上
+//                //      position:[-1, 0]
+//                // a    PivotX: [w, 0.5w] = 0.5w * [2, 1]
+//                //      PivotY: 不变
+//                //      Rotation: [-MAX_ROTATE, 0] = MAX_ROTATE * [-1, 0]
+//
+//            } else { // 右边的页面 b
+//
+//                // a -> b :
+//                //      position:[1, 0]
+//                // b    PivotX: [0w, 0.5w] = 0.5w * [0, 1]
+//                //      PivotY: 不变
+//                //      Rotation: [MAX_ROTATE, 0] = MAX_ROTATE * [1, 0]
+//                page.setPivotX(0.5f * (1 - position) * page.getWidth());
+//                page.setPivotY(page.getHeight());
+//                page.setRotation(MAX_ROTATE * position);
+//
+//                // b -> a : 同上
+//                //      position:[0, 1]
+//                // b    PivotX: [0.5w, 0w] = 0.5w * [1, 0]
+//                //      PivotY: 不变
+//                //      Rotation: [0, MAX_ROTATE] = MAX_ROTATE * [0, 1]
+//
+//            }
         } else { // (1, +∞)
             page.setPivotX(0);
             page.setPivotY(page.getHeight());

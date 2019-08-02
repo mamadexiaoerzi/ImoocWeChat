@@ -12,11 +12,11 @@ import com.imooc.wechat.BuildConfig;
  */
 public class L {
     private static final String TAG = "PanJ";
-    private static boolean sDebug = BuildConfig.DEBUG;
+    private static boolean isDebug = BuildConfig.DEBUG;
 
     // 打release包或给用户使用时，日志就不会出现
     public static void d(String msg, Object... args) {
-        if (!sDebug) {
+        if (!isDebug) {
             return;
         }
         Log.d(TAG, String.format(msg, args));
